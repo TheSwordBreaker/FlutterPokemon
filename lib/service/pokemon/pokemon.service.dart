@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 class PokemonService {
   static Future<List<Pokemon>> getPokemon(
       {int limit = 5, int offset = 0}) async {
-    final uriBase =
-        Uri.parse('https://pokeapi.co/api/v2/pokemon?limit=${limit}');
+    final uriBase = Uri.parse(
+        'https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}');
 
     // final uri = uriBase.replace(queryParameters: {'limit': limit});
 
@@ -19,11 +19,13 @@ class PokemonService {
           List.from(json.decode(res.body)['results']);
 
       List<Pokemon> pokemons = data.asMap().entries.map<Pokemon>((e) {
-        e.value['id'] = e.key + 1;
-        e.value['images'] =
-            "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${e.key + 1}.png";
+        var myurl = e.value['url'].toString().split("/");
+        String sid = myurl.elementAt(myurl.length - 2);
 
-        print(e.value);
+        int id = int.parse(sid);
+        e.value['id'] = id;
+        e.value['images'] =
+            "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$sid.png";
 
         return Pokemon.fromMap(e.value);
       }).toList();

@@ -1,11 +1,11 @@
-import 'package:auth_example/service/pokemon/pokemon.models.dart';
-import 'package:auth_example/service/pokemon/pokemon.service.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-
-import 'package:google_fonts/google_fonts.dart';
-
 import 'package:auth_example/common/app_card.dart';
+import 'package:auth_example/common/pokemon_grid_card.dart';
+import 'package:auth_example/service/pokemon/pokemon.controller.dart';
+import 'package:auth_example/service/pokemon/pokemon.models.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DataPage extends StatefulWidget {
   const DataPage({Key? key}) : super(key: key);
@@ -15,14 +15,6 @@ class DataPage extends StatefulWidget {
 }
 
 class _DataPageState extends State<DataPage> {
-  // late Future<List<Pokemon>> MyPokemon ;
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // MyPokemon =
-  //   MyPokemon = PokemonService.getPokemon();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +23,6 @@ class _DataPageState extends State<DataPage> {
           crossAxisAlignment: WrapCrossAlignment.center,
           spacing: 8,
           children: [
-            // Image.asset('assets/pokeball.png', width: 30, height: 30),
             Text(
               "Pokédex",
               style: GoogleFonts.righteous(
@@ -66,7 +57,6 @@ class _DataPageState extends State<DataPage> {
                     style: TextStyle(fontSize: 32.0),
                     textAlign: TextAlign.center,
                   ),
-                  // const Center(child: CircularProgressIndicator()),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: Center(
@@ -75,7 +65,6 @@ class _DataPageState extends State<DataPage> {
                       ),
                     ),
                   ),
-
                   TextField(
                     decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.search, size: 18),
@@ -94,58 +83,7 @@ class _DataPageState extends State<DataPage> {
                   const SizedBox(
                     height: 20,
                   ),
-
-                  FutureBuilder<List<Pokemon>>(
-                    future: PokemonService.getPokemon(limit: 100),
-                    builder: (context, snapshot) {
-                      // print(snapshot);
-
-                      if (snapshot.hasData) {
-                        // return Text(snapshot.data![0].name ?? ' ');
-
-                        return SizedBox(
-                          height: 400,
-                          child: GridView.builder(
-                              // scrollDirection: Axis.vertical,
-                              gridDelegate:
-                                  const SliverGridDelegateWithMaxCrossAxisExtent(
-                                maxCrossAxisExtent: 200,
-                                crossAxisSpacing: 16,
-                                childAspectRatio: 0.9,
-                                mainAxisSpacing: 16,
-                              ),
-                              shrinkWrap: true,
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: ((context, index) {
-                                Pokemon pokemon = snapshot.data![index];
-
-                                return AppCard(
-                                  // child: SizedBox(
-                                  // height: 200,
-
-                                  child: Column(
-                                    children: [
-                                      CachedNetworkImage(
-                                        imageUrl: pokemon.images,
-                                        fit: BoxFit.cover,
-                                        placeholder: (context, url) =>
-                                            const CircularProgressIndicator(),
-                                      ),
-                                      Text(pokemon.name),
-                                    ],
-                                  ),
-                                  // ),
-                                );
-                              })),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-
-                      // By default, show a loading spinner.
-                      return const CircularProgressIndicator();
-                    },
-                  )
+                  const DynamicPokemonGrid()
                 ],
               ),
             ),
@@ -164,6 +102,54 @@ class _DataPageState extends State<DataPage> {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class DynamicPokemonGrid extends StatefulWidget {
+  const DynamicPokemonGrid({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<DynamicPokemonGrid> createState() => _DynamicPokemonGridState();
+}
+
+class _DynamicPokemonGridState extends State<DynamicPokemonGrid> {
+  final PokemonController pokemonController = Get.put(PokemonController());
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 400,
+      child: Obx(
+        () {
+          if (pokemonController.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            return LazyLoadScrollView(
+              onEndOfPage: () {
+                pokemonController.loadData();
+              },
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 200,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 0.9,
+                  mainAxisSpacing: 16,
+                ),
+                shrinkWrap: true,
+                itemCount: pokemonController.pokemonsList.length,
+                itemBuilder: ((context, index) {
+                  Pokemon pokemon = pokemonController.pokemonsList[index];
+
+                  return PokemonGridCard(pokemon: pokemon);
+                }),
+              ),
+            );
+          }
+        },
       ),
     );
   }

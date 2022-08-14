@@ -15,6 +15,10 @@ class Pokemon {
     required this.id,
   });
 
+  factory Pokemon.empty() {
+    return Pokemon(name: "", url: "", images: "", id: 1);
+  }
+
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
 
@@ -39,4 +43,9 @@ class Pokemon {
 
   factory Pokemon.fromJson(String source) =>
       Pokemon.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'Pokemon(name: $name, url: $url, images: $images, id: $id)';
+  }
 }

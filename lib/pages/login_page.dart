@@ -2,7 +2,7 @@ import 'package:auth_example/common/app_card.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key? key}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -57,9 +57,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             AppCard(
-              child: Container(
-                  // margin: const EdgeInsets.only(top: 20),
-                  child: Column(
+              child: Column(
                 children: <Widget>[
                   TextFormField(
                     validator: (value) {
@@ -122,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   )
                 ],
-              )),
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

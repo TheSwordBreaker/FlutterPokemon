@@ -1,11 +1,12 @@
+import 'package:auth_example/common/my_base_card.dart';
 import 'package:flutter/material.dart';
 
 class AppCard extends StatefulWidget {
   final Widget child;
-  Border? borderStyle;
-  Color? boxShadowColor;
+  final Border? borderStyle;
+  final Color? boxShadowColor;
 
-  AppCard(
+  const AppCard(
       {Key? key, required this.child, this.borderStyle, this.boxShadowColor})
       : super(key: key);
 
@@ -20,23 +21,10 @@ class _AppCardState extends State<AppCard> {
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Card(
-          margin: const EdgeInsets.all(20.0),
-          color: Colors.white,
-          child: Container(
-            padding: const EdgeInsets.all(20.0),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: widget.borderStyle ??
-                  Border.all(color: Colors.black, width: 2),
-              boxShadow: [
-                BoxShadow(
-                    color: widget.boxShadowColor ?? Colors.black,
-                    offset: const Offset(10.0, 10.0))
-              ],
-            ),
-            child: widget.child,
-          ),
+        MyBaseCard(
+          borderStyle: widget.borderStyle,
+          boxShadowColor: widget.boxShadowColor,
+          child: widget.child,
         ),
       ],
     );
