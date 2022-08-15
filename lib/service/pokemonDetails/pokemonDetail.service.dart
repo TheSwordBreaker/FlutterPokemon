@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:auth_example/service/pokemonDetails/pokemonDetail.model.dart';
 import 'package:http/http.dart' as http;
 
