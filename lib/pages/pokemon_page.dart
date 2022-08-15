@@ -1,6 +1,6 @@
 import 'package:auth_example/service/pokemon/pokemon.models.dart';
 import 'package:auth_example/service/pokemonDetails/pokemonDetail.controller.dart';
-import 'package:auth_example/service/pokemonDetails/pokemonDetail.model.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +12,7 @@ import '../common/app_card.dart';
 class PokemonPage extends StatelessWidget {
   final Pokemon pokemon;
 
-  PokemonPage({
+  const PokemonPage({
     Key? key,
     required this.pokemon,
   }) : super(key: key);

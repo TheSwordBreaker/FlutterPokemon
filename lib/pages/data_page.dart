@@ -1,5 +1,6 @@
 import 'package:auth_example/common/app_card.dart';
 import 'package:auth_example/common/pokemon_grid_card.dart';
+import 'package:auth_example/controller/auth.controller.dart';
 import 'package:auth_example/service/pokemon/pokemon.controller.dart';
 import 'package:auth_example/service/pokemon/pokemon.models.dart';
 import 'package:flutter/material.dart';
@@ -94,7 +95,8 @@ class _DataPageState extends State<DataPage> {
                 TextButton(
                   style: TextButton.styleFrom(primary: Colors.black),
                   onPressed: () {
-                    Get.toNamed('/login');
+                    AuthController.instance.logout();
+                    // Get.toNamed('/login');
                   },
                   child: const Text("Logout"),
                 )

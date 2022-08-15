@@ -1,4 +1,6 @@
 import 'package:auth_example/common/app_card.dart';
+import 'package:auth_example/controller/auth.controller.dart';
+import 'package:auth_example/utils/form_valider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,20 +24,25 @@ class _LoginPageState extends State<LoginPage> {
     ),
   );
 
+  FormValidater check = Get.find();
   final _loginFormKey = GlobalKey<FormState>();
 
   String _userEmail = '';
   String _password = '';
+
   final bool byPassValidation = true;
 
   void _trySubmitForm() {
     final bool? isValid = _loginFormKey.currentState?.validate();
+
     if (isValid == true) {
       debugPrint('Everything looks good!');
       debugPrint(_userEmail);
       debugPrint(_password);
-
-      Get.offAllNamed('/');
+      debugPrint(AuthController.instance.isLoading.isFalse.toString());
+      if (AuthController.instance.isLoading.isFalse) {
+        AuthController.instance.login(_userEmail.trim(), _password.trim());
+      }
     }
   }
 
@@ -62,42 +69,14 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 children: <Widget>[
                   TextFormField(
-                    validator: (value) {
-                      if (byPassValidation) return null;
-                      if (value!.isEmpty) {
-                        return "You Can't have Empty Name !";
-                      }
-                      if (value.length < 2) {
-                        return "Email must have More than One Characters";
-                      }
-                      if (!value.contains('@')) {
-                        return "Invalid Email ";
-                      }
-                      // Check if the entered email has the right format
-                      if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
-                        return 'Please enter a valid email address';
-                      }
-                      // Return null if the entered email is valid
-                      return null;
-                    },
+                    validator: (value) => check.validEmail(value),
                     onChanged: (value) => _userEmail = value,
                     decoration: const InputDecoration(labelText: "Email"),
                   ),
                   TextFormField(
                     decoration: const InputDecoration(labelText: "Password"),
                     obscureText: true,
-                    validator: (value) {
-                      if (byPassValidation) return null;
-
-                      if (value == null || value.trim().isEmpty) {
-                        return 'This field is required';
-                      }
-                      if (value.trim().length < 8) {
-                        return 'Password must be at least 8 characters in length';
-                      }
-                      // Return null if the entered password is valid
-                      return null;
-                    },
+                    validator: (value) => check.validPassword(value),
                     onChanged: (value) => _password = value,
                   ),
                   Container(
@@ -106,9 +85,17 @@ class _LoginPageState extends State<LoginPage> {
                     child: TextButton(
                       onPressed: _trySubmitForm,
                       style: flatButtonStyle,
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 12.0),
-                        child: Text("Login"),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                        child: Obx(
+                          () => AuthController.instance.isLoading.isTrue
+                              ? const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 12.0),
+                                  child: CircularProgressIndicator(
+                                      color: Colors.white),
+                                )
+                              : const Text("Login"),
+                        ),
                       ),
                     ),
                   ),

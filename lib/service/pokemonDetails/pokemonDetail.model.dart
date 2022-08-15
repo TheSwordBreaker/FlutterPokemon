@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 PokemonDetails pokemonDetailsFromJson(String str) =>
     PokemonDetails.fromJson(json.decode(str));
 
@@ -45,7 +47,7 @@ class PokemonDetails {
         abilities: List<AbilityElement>.from(
             json["abilities"].map((x) => AbilityElement.fromJson(x))),
         abilityName: List<String>.from(json["abilities"].map((x) {
-          print(x);
+          debugPrint(x.toString());
           return x['ability']['name'];
         })),
         baseExperience: json["base_experience"],

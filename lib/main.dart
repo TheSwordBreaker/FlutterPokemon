@@ -1,3 +1,6 @@
+import 'package:auth_example/pages/splash_page.dart';
+import 'package:auth_example/utils/form_valider.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,11 +20,12 @@ Future main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   ).then((value) => Get.put(AuthController()));
-  runApp(const MyApp());
+  FormValidater check = Get.put(FormValidater());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +40,10 @@ class MyApp extends StatelessWidget {
       //   GetPage(name: '/pokemon', page: () => PokemonPage()),
       // ],
       getPages: [
-        GetPage(name: '/', page: () => DataPage()),
-        GetPage(name: '/login', page: () => LoginPage()),
-        GetPage(name: '/signup', page: () => SignUpPage()),
+        GetPage(name: '/home', page: () => const DataPage()),
+        GetPage(name: '/', page: () => const SplashPage()),
+        GetPage(name: '/login', page: () => const LoginPage()),
+        GetPage(name: '/signup', page: () => const SignUpPage()),
         GetPage(
             name: '/PokemonPage',
             page: () => PokemonPage(pokemon: Pokemon.empty())),

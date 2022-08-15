@@ -5,7 +5,7 @@ class MyBaseCard extends StatefulWidget {
   final Border? borderStyle;
   final Color? boxShadowColor;
 
-  MyBaseCard({
+  const MyBaseCard({
     Key? key,
     required this.child,
     this.borderStyle,

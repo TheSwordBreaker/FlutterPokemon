@@ -24,7 +24,7 @@ class PokemonDetailController extends GetxController {
       poke.value = pokemons;
     } catch (e) {
       // if (kDebugMode) {
-      print(e);
+      debugPrint(e.toString());
       // }
     } finally {
       if (isLoading.value) isLoading(false);

@@ -12,7 +12,7 @@ class PokemonService {
     // final uri = uriBase.replace(queryParameters: {'limit': limit});
 
     final res = await http.get(uriBase);
-    // print(res.body);
+    // debugPrint(res.body);
     if (res.statusCode == 200) {
       // return Pokemon.fromJson(res.body);
       List<Map<String, dynamic>> data =
