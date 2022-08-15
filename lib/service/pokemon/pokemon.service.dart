@@ -7,7 +7,7 @@ class PokemonService {
   static Future<List<Pokemon>> getPokemon(
       {int limit = 5, int offset = 0}) async {
     final uriBase = Uri.parse(
-        'https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}');
+        'https://pokeapi.co/api/v2/pokemon?limit=$limit&offset=$offset');
 
     // final uri = uriBase.replace(queryParameters: {'limit': limit});
 

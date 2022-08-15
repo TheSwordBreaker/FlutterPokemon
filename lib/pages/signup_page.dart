@@ -50,6 +50,7 @@ class SignUpPage extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class SignupForm extends StatelessWidget {
   SignupForm({
     Key? key,
@@ -72,6 +73,7 @@ class SignupForm extends StatelessWidget {
   FormValidater check = Get.find();
   String _userEmail = '';
   String _password = '';
+  // ignore: unused_field
   String _confirmPassword = '';
   _trySubmit() {
     final form = _signupFormKey.currentState;
