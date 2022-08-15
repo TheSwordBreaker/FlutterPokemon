@@ -25,7 +25,7 @@ class _DataPageState extends State<DataPage> {
           spacing: 8,
           children: [
             Text(
-              "Pokédex",
+              "Pokédex ",
               style: GoogleFonts.righteous(
                 textStyle: Theme.of(context).textTheme.headline5,
                 fontWeight: FontWeight.w300,
