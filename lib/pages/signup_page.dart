@@ -1,5 +1,6 @@
 import 'package:auth_example/common/app_card.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SignUpPage extends StatelessWidget {
   SignUpPage({Key? key}) : super(key: key);
@@ -54,8 +55,7 @@ class SignUpPage extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 20.0),
                     child: TextButton(
                       onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, '/', (_) => false);
+                        Get.offAllNamed('/');
                       },
                       style: flatButtonStyle,
                       child: const Padding(
@@ -83,7 +83,7 @@ class SignUpPage extends StatelessWidget {
                 TextButton(
                   style: TextButton.styleFrom(primary: Colors.black),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/login');
+                    Get.toNamed('/login');
                   },
                   child: const Text("Login"),
                 )

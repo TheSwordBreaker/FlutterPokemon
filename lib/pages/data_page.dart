@@ -94,7 +94,7 @@ class _DataPageState extends State<DataPage> {
                 TextButton(
                   style: TextButton.styleFrom(primary: Colors.black),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/login');
+                    Get.toNamed('/login');
                   },
                   child: const Text("Logout"),
                 )

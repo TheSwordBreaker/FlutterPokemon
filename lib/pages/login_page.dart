@@ -1,5 +1,6 @@
 import 'package:auth_example/common/app_card.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -33,7 +34,8 @@ class _LoginPageState extends State<LoginPage> {
       debugPrint('Everything looks good!');
       debugPrint(_userEmail);
       debugPrint(_password);
-      Navigator.pop(context);
+
+      Get.offAllNamed('/');
     }
   }
 
@@ -129,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                 TextButton(
                   style: TextButton.styleFrom(primary: Colors.black),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/signup');
+                    Get.toNamed('/signup');
                   },
                   child: const Text("Sign up"),
                 )

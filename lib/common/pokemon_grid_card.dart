@@ -17,7 +17,6 @@ class PokemonGridCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigator.pushNamed(context, '/signup');
         Get.to(
           () => PokemonPage(pokemon: pokemon),
           transition: Transition.fadeIn,
